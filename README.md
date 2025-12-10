@@ -171,4 +171,4 @@ Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md)
 
 ## License
 
-MIT © [Muhammet Eroglu](https://github.com/seam-agency)
+APACHE2 © [Seam Agency](https://github.com/seamagency)
