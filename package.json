@@ -58,12 +58,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/seam-agency/socialy.git"
+    "url": "git+https://github.com/seamagency/socially.git"
   },
   "bugs": {
-    "url": "https://github.com/seam-agency/socialy/issues"
+    "url": "https://github.com/seamagency/socially/issues"
   },
-  "homepage": "https://github.com/seam-agency/socialy#readme",
+  "homepage": "https://github.com/seamagency/socially#readme",
   "engines": {
     "node": ">=16.0.0"
   },
