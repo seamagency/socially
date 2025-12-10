@@ -140,32 +140,79 @@ export class Facebook implements SocialPlatform {
 
     async post(content: PostContent): Promise<PostResult> {
         try {
+            // Step 1: Ensure we have a Page Access Token
+            let pageAccessToken = this.accessToken;
+            let targetPageId = this.pageId;
+            const version = 'v21.0';
+
+            console.log('📘 Facebook Post - Checking credentials...');
+
+            try {
+                // Fetch user's pages to find the correct Page Access Token
+                const accountsResponse = await axios.get(`https://graph.facebook.com/${version}/me/accounts`, {
+                    params: { access_token: this.accessToken, fields: 'id,access_token,name' }
+                });
+
+                if (accountsResponse.data?.data?.length > 0) {
+                    const pages = accountsResponse.data.data;
+                    let targetPage;
+
+                    if (this.pageId) {
+                        targetPage = pages.find((p: any) => p.id === this.pageId);
+                    }
+
+                    if (!targetPage) {
+                        // Fallback to first page if pageId is invalid or user ID provided
+                        targetPage = pages[0];
+                        console.warn(`📘 Target Page ID ${this.pageId} not found/invalid. Defaulting to: ${targetPage.name}`);
+                    }
+
+                    if (targetPage && targetPage.access_token) {
+                        pageAccessToken = targetPage.access_token;
+                        targetPageId = targetPage.id;
+                        console.log(`📘 Using Page Access Token for: ${targetPage.name}`);
+                    }
+                }
+            } catch (err) {
+                console.warn('📘 Failed to fetch pages list. Trying with current token/ID as is (might fail if User Token).');
+            }
+
+            if (!targetPageId) {
+                throw new Error('No target Page ID found for Facebook post.');
+            }
+
             let response;
+            console.log(`📘 Posting to Page ID: ${targetPageId}`);
 
             if (content.media && content.media.length > 0) {
                 // Handle Media Post (Image)
-                // Graph API /photos endpoint supports 'url' parameter for public URLs
                 const mediaPath = content.media[0];
 
                 if (!mediaPath.startsWith('http')) {
-                    throw new Error('Facebook Graph API (Axios implementation) requires public URLs for media. Local file upload not implemented in this lightweight version.');
+                    throw new Error('Facebook Graph API (Axios implementation) requires public URLs for media.');
                 }
 
                 response = await axios.post(
-                    `https://graph.facebook.com/v18.0/${this.pageId}/photos`,
+                    `https://graph.facebook.com/${version}/${targetPageId}/photos`,
+                    {},
                     {
-                        url: mediaPath,
-                        caption: content.text,
-                        access_token: this.accessToken
+                        params: {
+                            url: mediaPath,
+                            caption: content.text,
+                            access_token: pageAccessToken
+                        }
                     }
                 );
             } else if (content.text) {
                 // Text/Link Post
                 response = await axios.post(
-                    `https://graph.facebook.com/v18.0/${this.pageId}/feed`,
+                    `https://graph.facebook.com/${version}/${targetPageId}/feed`,
+                    {},
                     {
-                        message: content.text,
-                        access_token: this.accessToken
+                        params: {
+                            message: content.text,
+                            access_token: pageAccessToken
+                        }
                     }
                 );
             } else {

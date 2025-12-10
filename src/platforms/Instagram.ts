@@ -235,9 +235,37 @@ export class Instagram implements SocialPlatform {
 
             const creationId = containerResponse.data.id;
 
-            // Step 2: Wait a bit for processing (simpler approach)
+            // Step 2: Poll for Status
             console.log('📸 Waiting for media processing...');
-            await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
+            let status = 'IN_PROGRESS';
+            let attempts = 0;
+            const maxAttempts = 30; // 30 attempts = ~60 seconds
+
+            while (status !== 'FINISHED' && status !== 'READY') {
+                if (status === 'ERROR') {
+                    throw new Error('Media container status is ERROR');
+                }
+                if (attempts >= maxAttempts) {
+                    throw new Error('Media processing timed out');
+                }
+
+                // Wait 2 seconds
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                const statusResponse = await axios.get(
+                    `https://graph.instagram.com/v21.0/${creationId}`,
+                    {
+                        params: {
+                            fields: 'status_code',
+                            access_token: this.accessToken
+                        }
+                    }
+                );
+
+                status = statusResponse.data.status_code;
+                console.log(`📸 Media Status: ${status} (Attempt ${attempts + 1}/${maxAttempts})`);
+                attempts++;
+            }
 
             // Step 3: Publish Media
             console.log('📸 Publishing media...');
