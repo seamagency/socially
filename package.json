@@ -1,0 +1,105 @@
+{
+  "name": "@seamagency/socially",
+  "version": "1.1.3",
+  "description": "A comprehensive social media management library for Node.js with support for 12+ platforms including YouTube, TikTok, Pinterest, Reddit, Threads, Discord, Slack, Telegram, and more.",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "OAUTH_GUIDE.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepare": "npm run build",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepublishOnly": "npm run build && npm test",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
+  },
+  "keywords": [
+    "social-media",
+    "facebook",
+    "instagram",
+    "twitter",
+    "linkedin",
+    "youtube",
+    "tiktok",
+    "pinterest",
+    "reddit",
+    "threads",
+    "discord",
+    "slack",
+    "telegram",
+    "oauth",
+    "api",
+    "automation",
+    "posting",
+    "cross-posting",
+    "social-management",
+    "instagram-api",
+    "meta-api"
+  ],
+  "author": "Muhammet Eroglu <your-email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/seam-agency/socialy.git"
+  },
+  "bugs": {
+    "url": "https://github.com/seam-agency/socialy/issues"
+  },
+  "homepage": "https://github.com/seam-agency/socialy#readme",
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "type": "commonjs",
+  "sideEffects": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "crypto-js": "^4.2.0",
+    "form-data": "^4.0.5",
+    "oauth-1.0a": "^2.2.6"
+  },
+  "devDependencies": {
+    "@types/crypto-js": "^4.2.2",
+    "@types/jest": "^30.0.0",
+    "@types/multer": "^2.0.0",
+    "@types/node": "^24.10.1",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.1",
+    "express": "^5.2.1",
+    "jest": "^30.0.0",
+    "multer": "^2.0.2",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.1.2",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "typescript": ">=4.7.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  }
+}

@@ -1,0 +1,47 @@
+# Source files
+src/
+test/
+examples/
+
+# Config files
+.env
+.env.*
+*.config.js
+*.config.ts
+tsconfig.json
+.eslintrc*
+.prettierrc*
+jest.config.*
+
+# Build artifacts
+*.log
+*.tgz
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Git
+.git/
+.gitignore
+
+# Development files
+node_modules/
+coverage/
+.nyc_output/
+
+# Example and test data
+*.test.ts
+*.spec.ts
+tokens.json
+uploads/
+
+# Docs that aren't needed in package
+CONTRIBUTING.md
+CHANGELOG.md
+.github/
+
+# Agent files
+.agent/
