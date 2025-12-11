@@ -1,6 +1,6 @@
 # @seamagency/socially
 
-[![npm version](https://badge.fury.io/js/@seamagency%2Fsocially.svg)](https://www.npmjs.com/package/@seamagency/socially)
+[![npm version](https://d25lcipzij17d.cloudfront.net/badge.svg?c=eyJhbGciOiJub25lIn0.eyJiIjp7IngiOmZhbHNlLCJ0IjoidjZlIiwibCI6Im5wbSBwYWNrYWdlIiwiciI6IjEuMS44In19)](https://www.npmjs.com/package/@seamagency/socially)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 A comprehensive social media management library for Node.js with support for 12+ platforms including Instagram, YouTube, TikTok, Pinterest, Reddit, Threads, Discord, Slack, Telegram, and more.
