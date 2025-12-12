@@ -1,3 +1,3 @@
-export * from './types';
-export * from './SocialManager';
-export * from './platforms';
+export * from "./types";
+export * from "./SocialManager";
+export * from "./platforms";
