@@ -25,7 +25,24 @@ export class LinkedIn implements SocialPlatform {
     this.redirectUri = config.redirectUri;
     this.accessToken = config.accessToken;
     this.refreshToken = config.refreshToken;
-    this.authorId = config.authorId;
+    this.authorId = config.authorId
+      ? this.normalizeAuthorId(config.authorId)
+      : undefined;
+  }
+
+  /**
+   * Normalizes authorId to proper LinkedIn URN format.
+   * If the ID is already in URN format (starts with 'urn:li:'), returns it as-is.
+   * Otherwise, wraps it in 'urn:li:person:' format (default for user accounts).
+   * @param authorId - The author ID to normalize
+   * @returns Normalized URN
+   */
+  private normalizeAuthorId(authorId: string): string {
+    if (authorId.startsWith("urn:li:")) {
+      return authorId;
+    }
+    // Default to person URN. If it's an organization, user should provide full URN or set it explicitly
+    return `urn:li:person:${authorId}`;
   }
 
   /**
@@ -51,9 +68,7 @@ export class LinkedIn implements SocialPlatform {
    * @param code - Authorization code from callback
    * @returns Token data including accessToken, refreshToken (if available), and expiresIn
    */
-  async exchangeCodeForToken(
-    code: string,
-  ): Promise<{
+  async exchangeCodeForToken(code: string): Promise<{
     accessToken: string;
     refreshToken?: string;
     expiresIn: number;
@@ -204,7 +219,7 @@ export class LinkedIn implements SocialPlatform {
             headers: {
               Authorization: `Bearer ${this.accessToken}`,
               "Content-Type": "application/json",
-              "LinkedIn-Version": "202401",
+              "Linkedin-Version": "202511",
               "X-Restli-Protocol-Version": "2.0.0",
             },
           },
@@ -271,7 +286,7 @@ export class LinkedIn implements SocialPlatform {
           headers: {
             Authorization: `Bearer ${this.accessToken}`,
             "Content-Type": "application/json",
-            "LinkedIn-Version": "202401",
+            "Linkedin-Version": "202511",
             "X-Restli-Protocol-Version": "2.0.0",
           },
         },

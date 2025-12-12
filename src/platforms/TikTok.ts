@@ -31,9 +31,7 @@ export class TikTok implements SocialPlatform {
     return `https://www.tiktok.com/v2/auth/authorize/?client_key=${this.clientKey}&redirect_uri=${encodeURIComponent(this.redirectUri)}&scope=${encodeURIComponent(scopeString)}&response_type=code&state=${state}`;
   }
 
-  async exchangeCodeForToken(
-    code: string,
-  ): Promise<{
+  async exchangeCodeForToken(code: string): Promise<{
     accessToken: string;
     refreshToken: string;
     openId: string;
